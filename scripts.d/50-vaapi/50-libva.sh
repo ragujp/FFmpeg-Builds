@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/intel/libva.git"
-SCRIPT_COMMIT="4bb5f16c57b059976110db350d771a0ba72b7ef1"
+SCRIPT_COMMIT="7d6c7d482b9d2330b1f3a8bac13a6a3205f33382"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -10,8 +10,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libva
-    cd libva
+    cd "$FFBUILD_DLDIR/$SELF"
 
     autoreconf -i
 

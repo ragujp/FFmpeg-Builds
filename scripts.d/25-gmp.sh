@@ -1,15 +1,14 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://gmplib.org/repo/gmp/"
-SCRIPT_HGREV="614a1cd8bb1d"
+SCRIPT_REPO="https://github.com/BtbN/gmplib.git"
+SCRIPT_COMMIT="d8c52e7b0ee334ab52406972d26b06cca1a78d46"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    retry-tool sh -c "rm -rf gmp && hg clone -r '$SCRIPT_HGREV' -u '$SCRIPT_HGREV' '$SCRIPT_REPO' gmp"
-    cd gmp
+    cd "$FFBUILD_DLDIR/$SELF"
 
     ./.bootstrap
 

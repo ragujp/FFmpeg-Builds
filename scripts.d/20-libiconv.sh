@@ -1,19 +1,21 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://git.savannah.gnu.org/git/libiconv.git"
-SCRIPT_COMMIT="33f08ec1e0fc1e8203a3d81e9161894dc5793908"
+SCRIPT_COMMIT="6e2b31f6d66739c5abd850338ea68c6bd2012812"
 
 ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
-    retry-tool sh -c "rm -rf iconv && git clone '$SCRIPT_REPO' iconv"
-    cd iconv
-    git checkout "$SCRIPT_COMMIT"
+ffbuild_dockerdl() {
+    to_df "RUN retry-tool sh -c \"rm -rf $SELF && git clone '$SCRIPT_REPO' $SELF\" && git -C $SELF checkout \"$SCRIPT_COMMIT\""
+    to_df "RUN cd $SELF && retry-tool ./autopull.sh --one-time"
+}
 
-    ./gitsub.sh pull
-    ./autogen.sh
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR/$SELF"
+
+    (unset CC CFLAGS GMAKE && ./autogen.sh)
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

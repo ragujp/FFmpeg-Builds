@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libx11.git"
-SCRIPT_COMMIT="96cbac89a02220eb21e13ca5fa7c8c5adf77028a"
+SCRIPT_COMMIT="70f44d76fd8fad96f33ba5c80a394d68b77dda03"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -9,8 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libx11
-    cd libx11
+    cd "$FFBUILD_DLDIR/$SELF"
 
     autoreconf -i
 
