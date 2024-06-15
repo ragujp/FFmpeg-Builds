@@ -1,31 +1,30 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/xiph/opus.git"
-SCRIPT_COMMIT="101a71e03bbf860aaafb7090a0e440675cb27660"
+SCRIPT_COMMIT="2554a89e02c7fc30a980b4f7e635ceae1ecba5d6"
 
 ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    default_dl .
+    echo "./autogen.sh"
+}
+
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
-    ./autogen.sh
-
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
+        --host="$FFBUILD_TOOLCHAIN"
         --disable-shared
         --enable-static
         --disable-extra-programs
     )
 
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
+    if [[ $TARGET == winarm* ]]; then
         myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
+            --disable-rtcd
         )
-    else
-        echo "Unknown target"
-        return -1
     fi
 
     ./configure "${myconf[@]}"

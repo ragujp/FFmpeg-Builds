@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/util/macros.git"
-SCRIPT_COMMIT="cb147377e9341af05232f95814022abdecf14024"
+SCRIPT_COMMIT="7ed2b3798c030bd1729b699b446b43aba2ec606e"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -14,8 +14,6 @@ ffbuild_dockerlayer() {
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     autoreconf -i
     ./configure --prefix="$FFBUILD_PREFIX"
     make -j"$(nproc)"
